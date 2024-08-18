@@ -1,0 +1,26 @@
+{
+  "name": "template-rep-1",
+  "version": "1.0.0",
+  "description": "this is a template repository. which contains package.json, webpack.config.js.etc",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "watch": "webpack --watch",
+    "addYourprojectName": "git subtree push --prefix dist origin gh-pages",
+    "lint": "eslint ./"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@eslint/js": "^9.9.0",
+    "css-loader": "^7.1.2",
+    "eslint": "^9.9.0",
+    "globals": "^15.9.0",
+    "html-webpack-plugin": "^5.6.0",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.93.0",
+    "webpack-cli": "^5.1.4"
+  }
+}

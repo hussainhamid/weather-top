@@ -2,9 +2,10 @@ import "./styles.css";
 
 import "./hitApi.js";
 
-import { errorHandler } from "./hitApi.js";
-import { displayData } from "./hitApi.js";
+import { mainHitApiFunc } from "./hitApi.js";
+const searchBtn = document.getElementById("search");
 
-errorHandler();
-
-displayData();
+searchBtn.addEventListener("click", (event) => {
+  event.preventDefault();
+  mainHitApiFunc();
+});

@@ -2,7 +2,7 @@ import "./styles.css";
 
 import "./hitApi.js";
 
-import { mainHitApiFunc } from "./hitApi.js";
+import { displayData, mainHitApiFunc } from "./hitApi.js";
 const searchBtn = document.getElementById("search");
 const valueContainer = document.getElementById("value-container");
 

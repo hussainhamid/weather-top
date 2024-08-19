@@ -55,8 +55,8 @@ export async function errorHandler(response) {
 // class for collecting data
 export class dataClass {
   constructor(
-    temp,
-    feelsLike,
+    tempFar,
+    feelsLikeFar,
     condition,
     currentTime,
     snow,
@@ -66,8 +66,8 @@ export class dataClass {
     address,
     fullAddress
   ) {
-    this.temp = temp;
-    this.feelsLike = feelsLike;
+    this.tempFar = tempFar;
+    this.feelsLikeFar = feelsLikeFar;
     this.condition = condition;
     this.currentTime = currentTime;
     this.snow = snow;
@@ -77,14 +77,18 @@ export class dataClass {
     this.address = address;
     this.fullAddress = fullAddress;
   }
+
+  static toCelsius(fahrenheit) {
+    return ((fahrenheit - 32) * 5) / 9;
+  }
 }
 
 // function that displays the data into an object
 export async function displayData(data) {
   // getting the temp from data.json()
-  const temp = data.currentConditions.temp;
+  const tempFar = data.currentConditions.temp;
 
-  const feelsLike = data.currentConditions.feelslike;
+  const feelsLikeFar = data.currentConditions.feelslike;
 
   const condition = data.currentConditions.conditions;
 
@@ -103,8 +107,8 @@ export async function displayData(data) {
   const fullAddress = data.resolvedAddress;
 
   const newDataClass = new dataClass(
-    temp,
-    feelsLike,
+    tempFar,
+    feelsLikeFar,
     condition,
     currentTime,
     snow,
@@ -141,12 +145,12 @@ export async function displayData(data) {
   valueContainer.appendChild(currentTimeValue);
 
   let tempValue = document.createElement("h2");
-  tempValue.innerHTML = `Temp: ${newDataClass.temp}.F`;
+  tempValue.innerHTML = `Temp: ${newDataClass.tempFar}.F`;
   tempValue.classList.add("temp-value", "values");
   valueDiv.appendChild(tempValue);
 
   const feelsLikeValue = document.createElement("h2");
-  feelsLikeValue.innerHTML = `feels like: ${newDataClass.feelsLike}.F`;
+  feelsLikeValue.innerHTML = `feels like: ${newDataClass.feelsLikeFar}.F`;
   feelsLikeValue.classList.add("feels-like-value", "values");
   valueDiv.appendChild(feelsLikeValue);
 
@@ -169,9 +173,28 @@ export async function displayData(data) {
 
   valueContainer.appendChild(valueDiv);
 
+  document
+    .getElementById("temp-toggle")
+    .addEventListener("change", function () {
+      if (this.checked) {
+        // Convert to Celsius and update display
+        const tempCelsius = dataClass.toCelsius(newDataClass.tempFar);
+        const feelsLikeCelsius = dataClass.toCelsius(newDataClass.feelsLikeFar);
+        tempValue.innerHTML = `Temp: ${tempCelsius.toFixed(2)}°C`;
+        feelsLikeValue.innerHTML = `Feels Like: ${feelsLikeCelsius.toFixed(
+          2
+        )}°C`;
+      } else {
+        // Convert to Fahrenheit and update display
+        tempValue.innerHTML = `Temp: ${newDataClass.tempFar}°F`;
+        feelsLikeValue.innerHTML = `Feels Like: ${newDataClass.feelsLikeFar}°F`;
+      }
+    });
+
   // if any of the arguement is missing we log the error
-  if (typeof temp === "undefined") console.log("temp is undefined");
-  if (typeof feelsLike === "undefined") console.log("feelsLike is undefined");
+  if (typeof tempFar === "undefined") console.log("temp is undefined");
+  if (typeof feelsLikeFar === "undefined")
+    console.log("feelsLike is undefined");
   if (typeof condition === "undefined") console.log("condition is undefined");
   if (typeof currentTime === "undefined")
     console.log("currentTime is undefined");

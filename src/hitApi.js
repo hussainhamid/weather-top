@@ -1,22 +1,39 @@
-export async function mainHitApiFunc() {
+export async function mainHitApiFunc(defaultCity) {
   try {
-    const cityName = document.getElementById("city-name").value;
+    // declares a cityName var
+    let cityName = document.getElementById("city-name").value;
 
-    const response = await fetch(
+    // if cityName is empty then by default the city name should be defaultCity which is defined in index.js
+    if (cityName === "") {
+      cityName = defaultCity;
+    }
+
+    // this creates a url with the api key and city name
+    let response = await fetch(
       `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${cityName}?unitGroup=metric&key=MXXDP52SB6A7WH7SFG252FWT5&contentType=json`,
       { mode: "cors" }
     );
 
-    await errorHandler(response);
+    // a little easter egg
+    const easterDiv = document.getElementById("easter-div");
 
     if (cityName === "kukshi") {
-      console.log(
-        "did you mean the worst city in the world? anyways here you go."
-      );
+      const easterEgg = document.createElement("h4");
+      easterEgg.innerHTML = "Did you mean the worst city in the world?";
+      easterDiv.appendChild(easterEgg);
+      displayData();
     }
 
+    // after the url is created we run the errorhandler function to check if there is any error in the response
+    await errorHandler(response);
+
+    // after the error checking is done we create a var data with response.json() in it
     const data = await response.json();
+
+    // after that we run the displayData func which takes data as arguement
     await displayData(data);
+
+    // if by any means it dosne work we log an error
   } catch (err) {
     console.error("an error occured", err.message);
   }
@@ -36,7 +53,7 @@ export async function errorHandler(response) {
 }
 
 // class for collecting data
-class dataClass {
+export class dataClass {
   constructor(
     temp,
     feelsLike,
@@ -97,8 +114,62 @@ export async function displayData(data) {
     address,
     fullAddress
   );
-  console.log(newDataClass);
 
+  const valueContainer = document.getElementById("value-container");
+
+  const valueDiv = document.createElement("div");
+  valueDiv.classList.add("value-div");
+
+  const addressDiv = document.createElement("div");
+  addressDiv.classList.add("address-div");
+
+  const addressValue = document.createElement("h1");
+  addressValue.innerHTML = newDataClass.address;
+  addressValue.classList.add("address-value", "values");
+  addressDiv.appendChild(addressValue);
+  valueContainer.appendChild(addressDiv);
+
+  const fullAdressValue = document.createElement("h4");
+  fullAdressValue.innerHTML = `${newDataClass.fullAddress}`;
+  fullAdressValue.classList.add("full-address-value", "values");
+  addressDiv.appendChild(fullAdressValue);
+  valueContainer.appendChild(addressDiv);
+
+  const currentTimeValue = document.createElement("h2");
+  currentTimeValue.innerHTML = `Time: ${newDataClass.currentTime}`;
+  currentTimeValue.classList.add("current-time-value", "values");
+  valueContainer.appendChild(currentTimeValue);
+
+  let tempValue = document.createElement("h2");
+  tempValue.innerHTML = `Temp: ${newDataClass.temp}.F`;
+  tempValue.classList.add("temp-value", "values");
+  valueDiv.appendChild(tempValue);
+
+  const feelsLikeValue = document.createElement("h2");
+  feelsLikeValue.innerHTML = `feels like: ${newDataClass.feelsLike}.F`;
+  feelsLikeValue.classList.add("feels-like-value", "values");
+  valueDiv.appendChild(feelsLikeValue);
+
+  if (snow !== 0) {
+    const snowValue = document.createElement("h2");
+    snowValue.innerHTML = `Snow: ${newDataClass.snow}`;
+    snowValue.classList.add("snow-value", "values");
+    valueDiv.appendChild(snowValue);
+  }
+
+  const conditionValue = document.createElement("h2");
+  conditionValue.innerHTML = `Current Condition: ${newDataClass.condition}`;
+  conditionValue.classList.add("condition-value", "values");
+  valueDiv.appendChild(conditionValue);
+
+  const descriptionValue = document.createElement("h2");
+  descriptionValue.innerHTML = `description: ${newDataClass.description}`;
+  descriptionValue.classList.add("description-value", "values");
+  valueDiv.appendChild(descriptionValue);
+
+  valueContainer.appendChild(valueDiv);
+
+  // if any of the arguement is missing we log the error
   if (typeof temp === "undefined") console.log("temp is undefined");
   if (typeof feelsLike === "undefined") console.log("feelsLike is undefined");
   if (typeof condition === "undefined") console.log("condition is undefined");

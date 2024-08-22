@@ -22,6 +22,8 @@ export async function mainHitApiFunc(defaultCity) {
       easterEgg.innerHTML = "Did you mean the worst city in the world?";
       easterDiv.appendChild(easterEgg);
       displayData();
+    } else {
+      easterDiv.innerHTML = "";
     }
 
     // after the url is created we run the errorhandler function to check if there is any error in the response

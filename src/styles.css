@@ -1,6 +1,26 @@
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
 body {
-  background-color: #222831;
-  color: #e0e0e0;
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url(https://images.unsplash.com/photo-1664125010409-8a7f4d82ec07?q=80&w=2128&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D);
+  filter: blur(8px);
+  z-index: -1;
 }
 
 #form-container {
@@ -8,13 +28,14 @@ body {
   margin-bottom: 40px;
   text-align: center;
   font-size: 25px;
-  color: #e9cf3a;
+  color: #0de029;
+  font-size: 25px;
 }
 
 #city-name,
 #search {
   background-color: #42464d;
-  color: #e9cf3a;
+  color: #18e2d1;
   border: 1px solid black;
   border-radius: 10px;
 }
@@ -26,12 +47,16 @@ body {
 }
 
 #value-container {
+  background-color: #375c53;
+
+  border-radius: 20px;
   margin-left: 30%;
   margin-right: 30%;
+  margin-top: 70px;
   padding-left: 20px;
   padding-right: 20px;
-  border: 2px solid #3a4352;
-  border-radius: 20px;
+  font-size: 20px;
+  color: #ffffff;
 }
 
 .value-div {
